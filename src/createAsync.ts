@@ -1,4 +1,4 @@
-import { computed, readonly, ref, shallowRef } from 'vue'
+import { computed, readonly, ref, shallowRef } from '@vue/reactivity'
 import { callWithSignal, promiseWithControl, serialCall, toValue } from 'nice-fns'
 import type { AnyFn, SetRequired } from '@rhao/types-base'
 import { until } from '@vueuse/core'

@@ -1,4 +1,4 @@
-import { watch } from 'vue'
+import { watch } from '@vue/reactivity'
 import type { UseAsyncPlugin } from '../plugin'
 
 /**

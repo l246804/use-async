@@ -1,4 +1,4 @@
-import type { WatchOptions, WatchSource } from 'vue'
+import type { WatchOptions, WatchSource } from '@vue/reactivity'
 import type { Awaitable, MaybeFn } from '@rhao/types-base'
 import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 import type { UseAsyncHooks } from './hooks'

@@ -51,7 +51,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "vue": "^3.4.38"
+    "@vue/reactivity": "^3.5.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.24.0",
