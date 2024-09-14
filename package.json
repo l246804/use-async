@@ -1,0 +1,83 @@
+{
+  "name": "@magic-js/use-async",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "异步任务管理器。",
+  "author": "RayHao <https://github.com/l246804>",
+  "license": "MIT",
+  "homepage": "https://github.com/l246804/use-async",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/l246804/use-async"
+  },
+  "bugs": {
+    "url": "https://github.com/l246804/use-async/issues"
+  },
+  "keywords": [
+    "async",
+    "promise",
+    "fetch",
+    "xhr",
+    "axios",
+    "hook",
+    "vue",
+    "react",
+    "request"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./*": "./*"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist"
+  ],
+  "scripts": {
+    "plop": "plop",
+    "cz": "cz",
+    "build": "vite build",
+    "release": "release-it",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "taze": "taze major -iI",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "vue": "^3.4.38"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.24.0",
+    "@commitlint/cli": "^19",
+    "@commitlint/config-conventional": "^19",
+    "@commitlint/types": "^19",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@rhao/plop-generators": "^1.2.9",
+    "@rhao/types-base": "^1.6.0",
+    "@vueuse/core": "^11.0.3",
+    "commitizen": "^4.3.0",
+    "easy-hookable": "^0.1.0",
+    "eslint": "^9.8.0",
+    "git-cz": "^4.9.0",
+    "husky": "^9",
+    "nice-fns": "^1.9.0",
+    "plop": "^4.0.1",
+    "prettier": "^3.3.3",
+    "release-it": "^17.6.0",
+    "rollup": "^4.19.1",
+    "taze": "^0.16.3",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
