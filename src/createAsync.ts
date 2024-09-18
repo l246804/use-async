@@ -136,7 +136,6 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
     function executing(value: boolean) {
       isExecuting.value = value
       isFinished.value = !value
-      hooks.executing.trigger(value)
     }
     // #endregion
 

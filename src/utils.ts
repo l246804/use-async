@@ -7,7 +7,7 @@ import type { UseAsyncPlugin, UseAsyncPluginContext, UseAsyncPluginHooks } from 
 
 // #region Hooks 辅助工具
 export type HooksKeys = keyof UseAsyncHooks<any>
-export const hooksKeys: HooksKeys[] = ['before', 'after', 'success', 'error', 'executing']
+export const hooksKeys: HooksKeys[] = ['before', 'after', 'success', 'error']
 
 export type HooksOnKeys = keyof UseAsyncHooksOn<any>
 export const hooksOnKeys: HooksOnKeys[] = hooksKeys.map((key) => {

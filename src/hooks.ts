@@ -20,11 +20,6 @@ export interface UseAsyncHooks<T extends Task> {
    * 任务执行失败后触发，此时未更新 `error.value`，可通过 `ctx.error` 更改本次执行错误
    */
   error: (ctx: ExecuteContext.Error<T>) => Awaitable<unknown> | void
-  /**
-   * 执行状态变更时触发
-   * @param value 执行状态
-   */
-  executing: (value: boolean) => void
 }
 
 export type UseAsyncHooksOn<T extends Task> = CamelCasedProperties<{
