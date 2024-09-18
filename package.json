@@ -1,7 +1,7 @@
 {
   "name": "@magic-js/use-async",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "异步任务管理器。",
   "author": "RayHao <https://github.com/l246804>",
   "license": "MIT",
