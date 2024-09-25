@@ -1,8 +1,8 @@
 import type { CamelCasedProperties } from '@rhao/types-base'
 import type { UseAsyncHooks } from './hooks'
-import type { Task } from './task'
+import type { CreateAsyncOptions, UseAsyncOptions } from './options'
 import type { UseAsyncReturn } from './return'
-import type { UseAsyncOptions } from './options'
+import type { Task } from './task'
 
 // eslint-disable-next-line ts/no-wrapper-object-types
 export interface UseAsyncPluginApiKey<_> extends Symbol {}
@@ -11,6 +11,10 @@ export type InferUseAsyncPluginApi<Key, Defaults = unknown> =
   Key extends UseAsyncPluginApiKey<infer Api> ? Api : Defaults
 
 export interface UseAsyncPluginContext<T extends Task = Task> {
+  /**
+   * `createAsync()` 的配置项
+   */
+  readonly baseOptions: CreateAsyncOptions
   /**
    * `useAsync()` 的配置项
    */

@@ -1,6 +1,6 @@
 import type { UseAsyncError } from './error'
-import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 import type { UseAsyncOptions } from './options'
+import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 
 export namespace ExecuteContext {
   export interface Base<T extends Task> {
@@ -27,6 +27,15 @@ export namespace ExecuteContext {
      * 取消本次任务的执行，将会直接进入 `after` 阶段
      */
     cancel: () => void
+    /**
+     * 终止本次任务的执行，在 `task()` 未开始前调用不会立即退出
+     * @param reason 终止原因
+     */
+    abort: (reason?: any) => void
+    /**
+     * 本次任务执行是否被终止
+     */
+    isAborted: () => boolean
   }
 
   export interface After<T extends Task> extends Base<T> {

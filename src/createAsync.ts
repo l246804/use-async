@@ -1,9 +1,18 @@
-import { computed, readonly, ref, shallowRef } from '@vue/reactivity'
-import { callWithSignal, promiseWithControl, serialCall, toValue } from 'nice-fns'
 import type { AnyFn, SetRequired } from '@rhao/types-base'
-import { until } from '@vueuse/core'
+import type { ExecuteContext } from './context'
 import type { CreateAsyncOptions, UseAsyncOptions } from './options'
-import { type UseAsyncError, createError } from './error'
+import type { UseAsyncPluginContext } from './plugin'
+import type { UseAsyncReturn } from './return'
+import type { Task } from './task'
+import type { UseAsync } from './useAsync'
+import { CancelIfDupPlugin } from '@magic-js/use-async/plugins/builtin/cancel-if-dup'
+import { ImmediatePlugin } from '@magic-js/use-async/plugins/builtin/immediate'
+import { ReadyPlugin } from '@magic-js/use-async/plugins/builtin/ready'
+import { WatchDepsPlugin } from '@magic-js/use-async/plugins/builtin/watch-deps'
+import { computed, readonly, ref, shallowRef } from '@vue/reactivity'
+import { until } from '@vueuse/core'
+import { callWithSignal, promiseWithControl, serialCall, toValue } from 'nice-fns'
+import { createError, type UseAsyncError } from './error'
 import {
   createBoolToggle,
   createEventHooks,
@@ -12,15 +21,6 @@ import {
   isSupportsAbort,
   registerHooks,
 } from './utils'
-import type { Task } from './task'
-import type { ExecuteContext } from './context'
-import type { UseAsyncReturn } from './return'
-import type { UseAsync } from './useAsync'
-import type { UseAsyncPluginContext } from './plugin'
-import { ReadyPlugin } from './builtin-plugins/ready'
-import { CancelIfDupPlugin } from './builtin-plugins/cancel-if-dup'
-import { ImmediatePlugin } from './builtin-plugins/immediate'
-import { WatchDepsPlugin } from './builtin-plugins/watch-deps'
 
 // #region 默认配置项
 const DEFAULTS_OPTIONS = {
@@ -34,7 +34,12 @@ const DEFAULTS_OPTIONS = {
 // #endregion
 
 // #region 内置插件列表
-const BUILTIN_PLUGINS = [ImmediatePlugin, WatchDepsPlugin, ReadyPlugin, CancelIfDupPlugin]
+const BUILTIN_PLUGINS = [
+  ImmediatePlugin,
+  WatchDepsPlugin,
+  ReadyPlugin,
+  CancelIfDupPlugin,
+]
 // #endregion
 
 /**
@@ -44,13 +49,13 @@ const BUILTIN_PLUGINS = [ImmediatePlugin, WatchDepsPlugin, ReadyPlugin, CancelIf
  * @example
  * ```ts
  * const useAsync = createAsync({
- *   immediate: false,
+ *   skipHooksOnCancel: false,
  * })
  * ```
  */
 export function createAsync(baseOptions?: CreateAsyncOptions): UseAsync
 export function createAsync(baseOptions: CreateAsyncOptions = {}) {
-  function useAsyncFactory(task: Task, userOptions: UseAsyncOptions<any> = {}) {
+  function useAsync(task: Task, userOptions: UseAsyncOptions<any> = {}) {
     // #region 合并配置项
     const options: SetRequired<UseAsyncOptions<any>, keyof typeof DEFAULTS_OPTIONS> = {
       ...DEFAULTS_OPTIONS,
@@ -144,6 +149,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
     // 创建插件初始化上下文
     let executeTask = () => Promise.resolve()
     const pluginCtx: UseAsyncPluginContext<any> = {
+      baseOptions,
       options,
       shell,
       task: () => executeTask(),
@@ -273,8 +279,10 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
 
         const beforeCtx: ExecuteContext.Before<any> = {
           ...baseCtx,
+          abort,
           cancel: toggleCanceled,
           isCanceled,
+          isAborted,
         }
         await serialCall(hooks.before.list().map(withSkip), beforeCtx)
         // #endregion
@@ -417,5 +425,5 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
     }
   }
 
-  return useAsyncFactory as unknown as UseAsync
+  return useAsync as unknown as UseAsync
 }

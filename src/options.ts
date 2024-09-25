@@ -1,15 +1,9 @@
-import type { WatchOptions, WatchSource } from '@vue/reactivity'
-import type { Awaitable, MaybeFn } from '@rhao/types-base'
-import type { InferTaskPayload, InferTaskReturn, Task } from './task'
+import type { MaybeFn } from '@rhao/types-base'
 import type { UseAsyncHooks } from './hooks'
 import type { UseAsyncPlugin } from './plugin'
+import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 
 export interface CreateAsyncOptions {
-  /**
-   * 是否立即执行
-   * @default true
-   */
-  immediate?: boolean
   /**
    * 本次执行在 `before` 阶段执行时调用 `cancel()` 后是否跳过其他未执行的回调，可以在一定程度上减少不必要的性能操作
    * @default true
@@ -52,33 +46,10 @@ export interface CreateAsyncOptions {
 
 export interface UseAsyncOptions<T extends Task> {
   /**
-   * 是否立即执行
-   * @default CreateAsyncOptions.immediate
-   */
-  immediate?: boolean
-  /**
-   * 本次执行是否准备就绪，返回假值则取消本次执行，直接进入 `after` 阶段
-   * @param payload 执行参数列表
-   */
-  ready?: (...payload: InferTaskPayload<T>) => Awaitable<unknown>
-  /**
-   * 取消重复执行，如果最近一次执行未完成时执行该函数，返回真值则取消本次执行，直接进入 `after` 阶段
-   * @param currentPayload 本次执行参数列表
-   * @param latestPayload 最近一次执行参数列表
-   */
-  cancelIfDup?: (currentPayload: any, latestPayload: any) => unknown
-  /**
    * 本次执行在 `before` 阶段执行时调用 `cancel()` 后是否跳过其他未执行的回调，可以在一定程度上减少不必要的性能操作
    * @default CreateAsyncOptions.skipHooksOnCancel
    */
   skipHooksOnCancel?: MaybeFn<boolean>
-  /**
-   * 监听响应依赖
-   * @default { source: [], deep: true, callback: reExecute }
-   */
-  watchDeps?:
-    | WatchSource[]
-    | ({ source: WatchSource[], callback?: () => void } & Omit<WatchOptions<false>, 'immediate'>)
   /**
    * 是否保留上次的数据
    * @default CreateAsyncOptions.keepPreviousData
@@ -117,7 +88,7 @@ export interface UseAsyncOptions<T extends Task> {
    */
   hooks?: Partial<UseAsyncHooks<T>>
   /**
-   * 运行时插件列表，插件返回的 `hooks` 优先于 `CreateAsyncOptions.hooks`
+   * 插件列表，插件返回的 `hooks` 优先于 `CreateAsyncOptions.hooks`
    */
   plugins?: UseAsyncPlugin<T>[]
 }

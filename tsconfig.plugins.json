@@ -1,0 +1,10 @@
+{
+  "extends": ["./tsconfig.base.json"],
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "@magic-js/use-async": ["./src/index.ts"]
+    }
+  },
+  "include": ["./plugins"]
+}
