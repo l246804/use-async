@@ -1,9 +1,9 @@
-import type { EventHook } from 'nice-fns'
-import { createEventHook, isFunction } from 'nice-fns'
 import type { MaybeNullish } from '@rhao/types-base'
+import type { EventHook } from 'nice-fns'
 import type { UseAsyncHooks, UseAsyncHooksOn } from './hooks'
-import type { Task } from './task'
 import type { UseAsyncPlugin, UseAsyncPluginContext, UseAsyncPluginHooks } from './plugin'
+import type { Task } from './task'
+import { createEventHook, isFunction } from 'nice-fns'
 
 // #region Hooks 辅助工具
 export type HooksKeys = keyof UseAsyncHooks<any>
@@ -11,8 +11,12 @@ export const hooksKeys: HooksKeys[] = ['before', 'after', 'success', 'error']
 
 export type HooksOnKeys = keyof UseAsyncHooksOn<any>
 export const hooksOnKeys: HooksOnKeys[] = hooksKeys.map((key) => {
-  return `on${key[0].toUpperCase()}${key.slice(1)}` as HooksOnKeys
+  return `on${upperFirst(key)}` as HooksOnKeys
 })
+
+function upperFirst(str: string) {
+  return `${str[0].toUpperCase()}${str.slice(1)}`
+}
 
 // Hooks 键映射 -> { before: 'onBefore', onBefore: 'before' }
 export const hooksKeysMap: Record<string, string> = Object.fromEntries(

@@ -1,5 +1,5 @@
-import type { EventHookOn } from 'nice-fns'
 import type { Awaitable, CamelCasedProperties } from '@rhao/types-base'
+import type { EventHookOn } from 'nice-fns'
 import type { ExecuteContext } from './context'
 import type { Task } from './task'
 

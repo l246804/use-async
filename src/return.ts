@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref, ShallowRef } from '@vue/reactivity'
-import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 import type { UseAsyncError } from './error'
 import type { UseAsyncHooksOn } from './hooks'
+import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 
 type TaskData<T> = InferTaskReturn<T> | undefined
 
