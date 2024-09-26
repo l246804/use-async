@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/l246804/use-async/compare/v0.1.0...v0.2.0) (2024-09-26)
+
+
+### Features
+
+* 🎸 add request plugins ([62ababe](https://github.com/l246804/use-async/commit/62ababe5101bd02fa6b20809a2bd7d52f9660eb0))
+
+
+### Chores
+
+* 🤖 move builtin-plugins to plugins/builtin ([ad331ed](https://github.com/l246804/use-async/commit/ad331edc685a150e5a9bafc9b5fb918acaacc9f8))
+* 🤖 replace createEventHook to easy-hookable ([18c7b9b](https://github.com/l246804/use-async/commit/18c7b9b87da6b0810a138846d347956c2b962a22))
+* 🤖 update deps ([8579413](https://github.com/l246804/use-async/commit/85794138e967c74bd3d91c9777b6dd0e9eed6298))
+
 ## 0.1.0 (2024-09-18)
 
 
