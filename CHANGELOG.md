@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/l246804/use-async/compare/v0.2.1...v0.2.2) (2024-09-26)
+
+
+### Chores
+
+* 🤖 move @vue/reactivity to peerDependencies ([6ccc810](https://github.com/l246804/use-async/commit/6ccc8100b9e3c8124483620e39efe2eb8d88626e))
+
 ## [0.2.1](https://github.com/l246804/use-async/compare/v0.2.0...v0.2.1) (2024-09-26)
 
 
