@@ -134,3 +134,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src/index.ts

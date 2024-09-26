@@ -5,15 +5,13 @@ import type { Awaitable } from '@rhao/types-base'
  * ReadyPlugin
  * @description 任务执行前检查本次执行是否就绪
  */
-export const ReadyPlugin: UseAsyncPlugin = () => {
-  return {
-    async onBefore(ctx) {
-      const { ready = () => true } = ctx.options
-      if (!(await ready(...ctx.payload))) {
-        ctx.cancel()
-      }
-    },
-  }
+export const ReadyPlugin: UseAsyncPlugin = ({ shell }) => {
+  shell.on('before', async (ctx) => {
+    const { ready = () => true } = ctx.options
+    if (!(await ready(...ctx.payload))) {
+      ctx.cancel()
+    }
+  })
 }
 
 declare module '@magic-js/use-async' {

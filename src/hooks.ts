@@ -1,9 +1,11 @@
-import type { Awaitable, CamelCasedProperties } from '@rhao/types-base'
-import type { EventHookOn } from 'nice-fns'
+import type { Awaitable } from '@rhao/types-base'
+import type { Hookable } from 'easy-hookable'
 import type { ExecuteContext } from './context'
 import type { Task } from './task'
 
-export interface UseAsyncHooks<T extends Task> {
+export type UseAsyncHookable<T extends Task = Task> = Hookable<UseAsyncHooks<T>>
+
+export interface UseAsyncHooks<T extends Task = Task> {
   /**
    * 任务执行前触发，可通过 `ctx.cancel()` 取消本次执行
    */
@@ -21,7 +23,3 @@ export interface UseAsyncHooks<T extends Task> {
    */
   error: (ctx: ExecuteContext.Error<T>) => Awaitable<unknown> | void
 }
-
-export type UseAsyncHooksOn<T extends Task> = CamelCasedProperties<{
-  [K in keyof UseAsyncHooks<T> as `on-${K}`]: EventHookOn<UseAsyncHooks<T>[K]>
-}>

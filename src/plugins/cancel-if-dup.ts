@@ -5,19 +5,17 @@ import type { UseAsyncPlugin } from '@magic-js/use-async'
  * @description 取消重复的任务执行
  */
 export const CancelIfDupPlugin: UseAsyncPlugin = ({ shell }) => {
-  return {
-    onBefore(ctx) {
-      const { cancelIfDup } = ctx.options
-      if (
-        cancelIfDup
-        && !shell.isFinished.value
-        && shell.isExecuting.value
-        && cancelIfDup(ctx.payload, shell.payload.value)
-      ) {
-        return ctx.cancel()
-      }
-    },
-  }
+  shell.on('before', (ctx) => {
+    const { cancelIfDup } = ctx.options
+    if (
+      cancelIfDup
+      && !shell.isFinished.value
+      && shell.isExecuting.value
+      && cancelIfDup(ctx.payload, shell.payload.value)
+    ) {
+      return ctx.cancel()
+    }
+  })
 }
 
 declare module '@magic-js/use-async' {

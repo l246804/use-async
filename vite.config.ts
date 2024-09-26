@@ -36,7 +36,7 @@ function genOutput(format: 'cjs' | 'esm') {
     // 输出的代码格式
     format,
     // 是否保留源码文件结构
-    preserveModules: false,
+    preserveModules: true,
     // 源码根目录
     preserveModulesRoot: entryDir,
     // 入口文件名

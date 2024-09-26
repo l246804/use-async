@@ -3,7 +3,7 @@ import type { UseAsyncOptions } from './options'
 import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 
 export namespace ExecuteContext {
-  export interface Base<T extends Task> {
+  export interface Base<T extends Task = Task> {
     /**
      * 本次执行任务的配置项
      */
@@ -18,7 +18,7 @@ export namespace ExecuteContext {
     readonly signal: Readonly<Pick<AbortSignal, 'aborted' | 'reason'>>
   }
 
-  export interface Before<T extends Task> extends Base<T> {
+  export interface Before<T extends Task = Task> extends Base<T> {
     /**
      * 判断本次任务的执行是否已被取消
      */
@@ -38,7 +38,7 @@ export namespace ExecuteContext {
     isAborted: () => boolean
   }
 
-  export interface After<T extends Task> extends Base<T> {
+  export interface After<T extends Task = Task> extends Base<T> {
     /**
      * 本次任务执行后的数据
      */
@@ -73,7 +73,7 @@ export namespace ExecuteContext {
     isLatestExecution: () => boolean
   }
 
-  export interface Success<T extends Task> extends Base<T> {
+  export interface Success<T extends Task = Task> extends Base<T> {
     /**
      * 本次任务执行成功后的数据
      */
@@ -88,7 +88,7 @@ export namespace ExecuteContext {
     isLatestExecution: () => boolean
   }
 
-  export interface Error<T extends Task> extends Base<T> {
+  export interface Error<T extends Task = Task> extends Base<T> {
     /**
      * 本次任务执行失败后的数据
      */

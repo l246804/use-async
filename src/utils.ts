@@ -1,62 +1,5 @@
-import type { MaybeNullish } from '@rhao/types-base'
-import type { EventHook } from 'nice-fns'
-import type { UseAsyncHooks, UseAsyncHooksOn } from './hooks'
-import type { UseAsyncPlugin, UseAsyncPluginContext, UseAsyncPluginHooks } from './plugin'
-import type { Task } from './task'
-import { createEventHook, isFunction } from 'nice-fns'
-
-// #region Hooks 辅助工具
-export type HooksKeys = keyof UseAsyncHooks<any>
-export const hooksKeys: HooksKeys[] = ['before', 'after', 'success', 'error']
-
-export type HooksOnKeys = keyof UseAsyncHooksOn<any>
-export const hooksOnKeys: HooksOnKeys[] = hooksKeys.map((key) => {
-  return `on${upperFirst(key)}` as HooksOnKeys
-})
-
-function upperFirst(str: string) {
-  return `${str[0].toUpperCase()}${str.slice(1)}`
-}
-
-// Hooks 键映射 -> { before: 'onBefore', onBefore: 'before' }
-export const hooksKeysMap: Record<string, string> = Object.fromEntries(
-  hooksKeys
-    .map((key, i) => [key, hooksOnKeys[i]])
-    .concat(hooksOnKeys.map((key, i) => [key, hooksKeys[i]])),
-)
-
-export type EventHooks<T extends Task> = { [K in HooksKeys]: EventHook<UseAsyncHooks<T>[K]> }
-export function createEventHooks() {
-  return hooksKeys.reduce((hooks, key) => {
-    hooks[key] = createEventHook() as any
-    return hooks
-  }, {} as EventHooks<any>)
-}
-
-export function extractEventHooksOn(eventHooks: EventHooks<any>) {
-  return hooksOnKeys.reduce((hooksOn, key) => {
-    hooksOn[key] = eventHooks[hooksKeysMap[key] as HooksKeys].on as any
-    return hooksOn
-  }, {} as UseAsyncHooksOn<any>)
-}
-
-export function registerHooks(
-  eventHooks: EventHooks<any>,
-  ...userHooks: MaybeNullish<Partial<UseAsyncHooks<any> | UseAsyncPluginHooks<any> | void>>[]
-) {
-  for (const hooks of userHooks) {
-    if (!hooks)
-      continue
-
-    Object.entries(hooks).forEach(([key, fn]) => {
-      const hook: EventHook | undefined = eventHooks[key] || eventHooks[hooksKeysMap[key]]
-      if (hook) {
-        hook.on(fn)
-      }
-    })
-  }
-}
-// #endregion
+import type { UseAsyncPlugin, UseAsyncPluginContext } from './plugin'
+import { isFunction } from 'nice-fns'
 
 // #region 插件辅助工序
 export function createPlugins() {
@@ -81,7 +24,7 @@ export function createPlugins() {
       return self
     },
 
-    init: (ctx: UseAsyncPluginContext<any>) => plugins.map((p) => p(ctx)),
+    init: (ctx: UseAsyncPluginContext<any>) => plugins.forEach((p) => p(ctx)),
 
     clear: () => {
       plugins = []

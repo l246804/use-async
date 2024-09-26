@@ -1,5 +1,4 @@
-import type { CamelCasedProperties } from '@rhao/types-base'
-import type { UseAsyncHooks } from './hooks'
+import type { UseAsyncHookable } from './hooks'
 import type { CreateAsyncOptions, UseAsyncOptions } from './options'
 import type { UseAsyncReturn } from './return'
 import type { Task } from './task'
@@ -23,6 +22,10 @@ export interface UseAsyncPluginContext<T extends Task = Task> {
    * `useAsync()` 的返回体，包含一系列状态数据和方法，非运行时支持动态添加自定义状态和方法
    */
   readonly shell: UseAsyncReturn<T>
+  /**
+   * `useAsync()` 的事件钩子管理器，可注册自定义事件钩子
+   */
+  readonly hooks: UseAsyncHookable<T>
   /**
    * 本次执行的任务，可以通过插件进行替换，但需返回一个 `Promise`，出错时抛出异常将被捕获并进入 `error` 阶段
    */
@@ -63,20 +66,19 @@ export interface UseAsyncPluginContext<T extends Task = Task> {
  * @example
  * ```ts
  * // Log Plugin
- * const LogPlugin: UseAsyncPlugin = (ctx) => {
- *   return {
- *     onBefore(ctx) {
- *       console.log('------------Task Start------------')
- *       console.log('payload:', ctx.payload)
- *       console.log('signal:', ctx.signal)
- *     },
- *     onAfter(ctx) {
- *       console.log('------------Task Done------------')
- *       console.log('rawData:', ctx.rawData)
- *       console.log('data:', ctx.data)
- *       console.log('error:', ctx.error)
- *     }
- *   }
+ * const LogPlugin: UseAsyncPlugin = ({ shell }) => {
+ *   shell.on('before', () => {
+ *     console.log('------------Task Start------------')
+ *     console.log('payload:', ctx.payload)
+ *     console.log('signal:', ctx.signal)
+ *   })
+ *
+ *   shell.on('after', () => {
+ *     console.log('------------Task Done------------')
+ *     console.log('rawData:', ctx.rawData)
+ *     console.log('data:', ctx.data)
+ *     console.log('error:', ctx.error)
+ *   })
  * }
  *
  * // RefreshTokenPlugin
@@ -90,9 +92,5 @@ export interface UseAsyncPluginContext<T extends Task = Task> {
  * ```
  */
 export interface UseAsyncPlugin<T extends Task = Task> {
-  (ctx: UseAsyncPluginContext<T>): Partial<UseAsyncPluginHooks<T>> | void
+  (ctx: UseAsyncPluginContext<T>): void
 }
-
-export type UseAsyncPluginHooks<T extends Task> = CamelCasedProperties<{
-  [K in keyof UseAsyncHooks<T> as `on-${K}`]: UseAsyncHooks<T>[K]
-}>

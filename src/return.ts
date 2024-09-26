@@ -1,6 +1,6 @@
 import type { ComputedRef, Ref, ShallowRef } from '@vue/reactivity'
 import type { UseAsyncError } from './error'
-import type { UseAsyncHooksOn } from './hooks'
+import type { UseAsyncHookable } from './hooks'
 import type { InferTaskPayload, InferTaskReturn, Task } from './task'
 
 type TaskData<T> = InferTaskReturn<T> | undefined
@@ -8,7 +8,7 @@ type TaskData<T> = InferTaskReturn<T> | undefined
 type Execute<T extends Task> = (...args: InferTaskPayload<T>) => Promise<TaskData<T>>
 type ReExecute<T extends Task> = () => Promise<TaskData<T>>
 
-export interface UseAsyncReturn<T extends Task> extends UseAsyncHooksOn<T> {
+export interface UseAsyncReturn<T extends Task = Task> {
   /**
    * 最近一次执行的参数列表
    */
@@ -50,6 +50,15 @@ export interface UseAsyncReturn<T extends Task> extends UseAsyncHooksOn<T> {
    * - `false`: 结束最近一次未完成的执行
    */
   abort: (allPending?: boolean) => void
+
+  /**
+   * 注册执行流事件
+   */
+  on: UseAsyncHookable<T>['hook']
+  /**
+   * 注册执行流事件，触发一次后自动注销
+   */
+  once: UseAsyncHookable<T>['hookOnce']
 
   /**
    * 执行一次任务，返回本次任务执行的数据，每次执行时内部会更新一次响应式状态，但返回数据或错误均为本次任务自身状态

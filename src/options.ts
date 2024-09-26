@@ -44,7 +44,7 @@ export interface CreateAsyncOptions {
   plugins?: UseAsyncPlugin<any>[]
 }
 
-export interface UseAsyncOptions<T extends Task> {
+export interface UseAsyncOptions<T extends Task = Task> {
   /**
    * 本次执行在 `before` 阶段执行时调用 `cancel()` 后是否跳过其他未执行的回调，可以在一定程度上减少不必要的性能操作
    * @default CreateAsyncOptions.skipHooksOnCancel

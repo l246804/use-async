@@ -1,26 +1,21 @@
 import type { AnyFn, SetRequired } from '@rhao/types-base'
 import type { ExecuteContext } from './context'
+import type { UseAsyncHookable } from './hooks'
 import type { CreateAsyncOptions, UseAsyncOptions } from './options'
 import type { UseAsyncPluginContext } from './plugin'
 import type { UseAsyncReturn } from './return'
 import type { Task } from './task'
-import type { UseAsync } from './useAsync'
-import { CancelIfDupPlugin } from '@magic-js/use-async/plugins/builtin/cancel-if-dup'
-import { ImmediatePlugin } from '@magic-js/use-async/plugins/builtin/immediate'
-import { ReadyPlugin } from '@magic-js/use-async/plugins/builtin/ready'
-import { WatchDepsPlugin } from '@magic-js/use-async/plugins/builtin/watch-deps'
+import type { UseAsync } from './use-async'
 import { computed, readonly, ref, shallowRef } from '@vue/reactivity'
 import { until } from '@vueuse/core'
-import { callWithSignal, promiseWithControl, serialCall, toValue } from 'nice-fns'
+import { createHooks, serialTaskCaller } from 'easy-hookable'
+import { callWithSignal, promiseWithControl, toValue } from 'nice-fns'
 import { createError, type UseAsyncError } from './error'
-import {
-  createBoolToggle,
-  createEventHooks,
-  createPlugins,
-  extractEventHooksOn,
-  isSupportsAbort,
-  registerHooks,
-} from './utils'
+import { CancelIfDupPlugin } from './plugins/cancel-if-dup'
+import { ImmediatePlugin } from './plugins/immediate'
+import { ReadyPlugin } from './plugins/ready'
+import { WatchDepsPlugin } from './plugins/watch-deps'
+import { createBoolToggle, createPlugins, isSupportsAbort } from './utils'
 
 // #region 默认配置项
 const DEFAULTS_OPTIONS = {
@@ -34,12 +29,7 @@ const DEFAULTS_OPTIONS = {
 // #endregion
 
 // #region 内置插件列表
-const BUILTIN_PLUGINS = [
-  ImmediatePlugin,
-  WatchDepsPlugin,
-  ReadyPlugin,
-  CancelIfDupPlugin,
-]
+const BUILTIN_PLUGINS = [ImmediatePlugin, WatchDepsPlugin, ReadyPlugin, CancelIfDupPlugin]
 // #endregion
 
 /**
@@ -86,9 +76,8 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
     }
     // #endregion
 
-    // #region 创建 Hooks 和插件管理
-    const plugins = createPlugins()
-    const hooks = createEventHooks()
+    // #region 创建 Hooks 管理器
+    const hooks = createHooks() as UseAsyncHookable<any>
     // #endregion
 
     // #region 创建返回对象
@@ -105,6 +94,9 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
       canAbort,
       abort: abortPendingExecution,
 
+      on: hooks.hook,
+      once: hooks.hookOnce,
+
       doExecute,
 
       execute: (...args) => shell.doExecute(args),
@@ -112,9 +104,30 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
 
       reExecute: () => shell.execute(...payload.value),
       unsafeReExecute: () => shell.unsafeExecute(...payload.value),
-
-      ...extractEventHooksOn(hooks),
     }
+    // #endregion
+
+    // #region 初始化所有插件并注册配置项 Hooks
+    const plugins = createPlugins()
+    let executeTask = () => Promise.resolve()
+    const pluginCtx: UseAsyncPluginContext<any> = {
+      baseOptions,
+      options,
+      shell,
+      hooks,
+      task: () => executeTask(),
+      setApi: plugins.setApi,
+      getApi: plugins.getApi,
+    }
+
+    // 注册全部插件并初始化
+    plugins
+      .add(...BUILTIN_PLUGINS, ...(baseOptions.plugins || []), ...(userOptions.plugins || []))
+      .init(pluginCtx)
+
+    // 注册全部 Hooks
+    const configHooks = [baseOptions.hooks, userOptions.hooks]
+    configHooks.forEach((_hooks) => _hooks && hooks.addHooks(_hooks))
     // #endregion
 
     // #region 终止未完成的执行
@@ -142,25 +155,6 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
       isExecuting.value = value
       isFinished.value = !value
     }
-    // #endregion
-
-    // #region 注册插件并初始化后注册 Hooks
-
-    // 创建插件初始化上下文
-    let executeTask = () => Promise.resolve()
-    const pluginCtx: UseAsyncPluginContext<any> = {
-      baseOptions,
-      options,
-      shell,
-      task: () => executeTask(),
-      setApi: plugins.setApi,
-      getApi: plugins.getApi,
-    }
-
-    // 注册全部插件
-    plugins.add(...BUILTIN_PLUGINS, ...(baseOptions.plugins || []), ...(userOptions.plugins || []))
-    // 初始化插件并注册全部 Hooks
-    registerHooks(hooks, ...plugins.init(pluginCtx), baseOptions.hooks, userOptions.hooks)
     // #endregion
 
     // #region 执行核心功能
@@ -284,7 +278,11 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
           isCanceled,
           isAborted,
         }
-        await serialCall(hooks.before.list().map(withSkip), beforeCtx)
+        await hooks.callHookWith(
+          (name, fns, args) => serialTaskCaller(name, fns.map(withSkip), args),
+          'before',
+          beforeCtx,
+        )
         // #endregion
 
         // 取消本次执行
@@ -334,7 +332,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
           rawData: state.rawData,
           isLatestExecution,
         }
-        await serialCall(hooks.success.list(), successCtx)
+        await hooks.callHook('success', successCtx)
         // #endregion
 
         state.data = data.value = successCtx.data
@@ -358,7 +356,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
           isTimeout,
           isLatestExecution,
         }
-        await serialCall(hooks.error.list(), errorCtx)
+        await hooks.callHook('error', errorCtx)
         // #endregion
 
         state.error = error.value = errorCtx.error
@@ -395,7 +393,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
           isTimeout,
           isLatestExecution,
         }
-        await serialCall(hooks.after.list(), afterCtx)
+        await hooks.callHook('after', afterCtx)
         // #endregion
       }
 
