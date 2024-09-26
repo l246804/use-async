@@ -15,7 +15,7 @@ export namespace ExecuteContext {
     /**
      * 本次执行任务的终止信号
      */
-    readonly signal: Readonly<Pick<AbortSignal, 'aborted' | 'reason'>>
+    readonly signal: AbortSignal
   }
 
   export interface Before<T extends Task = Task> extends Base<T> {

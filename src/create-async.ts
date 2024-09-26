@@ -180,32 +180,21 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
       const isAborted = () => currentController.signal.aborted
 
       // 监听终止事件，变更 aborted.value
-      currentController.signal.onabort = () => {
+      currentController.signal.addEventListener('abort', abortCallback)
+      function abortCallback() {
         aborted.value = true
+        currentController.signal.removeEventListener('abort', abortCallback)
       }
 
       // 添加本次未完成的 AbortController
       pendingControllers.add(currentController)
       function deleteController() {
         pendingControllers.delete(currentController)
+        // 清楚事件回调
+        currentController.signal.removeEventListener('abort', abortCallback)
         // 清除定时器
         clearTimer()
       }
-
-      // 获取本次执行的只读 AbortSignal
-      const readonlySignal = Object.defineProperties(
-        {},
-        {
-          aborted: {
-            get: () => currentController.signal.aborted,
-            enumerable: true,
-          },
-          reason: {
-            get: () => currentController.signal.reason,
-            enumerable: true,
-          },
-        },
-      ) as Readonly<Pick<AbortSignal, 'aborted' | 'reason'>>
 
       // #region 创建本次执行的数据状态
       const [isCanceled, toggleCanceled] = createBoolToggle()
@@ -246,7 +235,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
       const baseCtx: ExecuteContext.Base<any> = {
         options,
         payload: args,
-        signal: readonlySignal,
+        signal: currentController.signal,
       }
       // #endregion
 
