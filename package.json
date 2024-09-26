@@ -21,7 +21,6 @@
     "axios",
     "hook",
     "vue",
-    "react",
     "request"
   ],
   "exports": {
