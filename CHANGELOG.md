@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/l246804/use-async/compare/v0.2.0...v0.2.1) (2024-09-26)
+
+
+### Chores
+
+* 🤖 expose raw instance of AbortSignal ([0752753](https://github.com/l246804/use-async/commit/07527536ae5bfd3b7518f793fd6e2b65d3f30da1))
+* 🤖 update package.json keywords ([ed0c691](https://github.com/l246804/use-async/commit/ed0c691e77ef4e6fbf5e94a4a3dcde1b9beab619))
+
 ## [0.2.0](https://github.com/l246804/use-async/compare/v0.1.0...v0.2.0) (2024-09-26)
 
 
