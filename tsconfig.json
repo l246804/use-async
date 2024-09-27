@@ -19,7 +19,6 @@
     "noUnusedParameters": true,
     "declaration": true,
     "downlevelIteration": true,
-    "emitDeclarationOnly": true,
     "importHelpers": false,
     "removeComments": false,
     "allowSyntheticDefaultImports": true,

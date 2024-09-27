@@ -79,7 +79,7 @@
     "release-it": "^17.6.0",
     "rollup": "^4.22.4",
     "taze": "^0.16.9",
-    "typescript": "^5.6.2",
+    "typescript": "^5.5.4",
     "vite": "^5.4.7",
     "vite-plugin-dts": "^4.2.2"
   },
