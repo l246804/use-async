@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.4](https://github.com/l246804/use-async/compare/v0.2.3...v0.2.4) (2024-10-08)
+
+
+### Bug Fixes
+
+* 🐛 修复 CreateAsyncOptions.hooks ([8f3b928](https://github.com/l246804/use-async/commit/8f3b928734f75a386de410304610d3ec321a9e7d))
+* 🐛 修复 useAsync 类型定义 ([2c77db5](https://github.com/l246804/use-async/commit/2c77db5647d9f2956ee199a3498779cbf94212a4))
+
 ## [0.2.3](https://github.com/l246804/use-async/compare/v0.2.2...v0.2.3) (2024-10-08)
 
 
