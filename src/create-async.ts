@@ -17,6 +17,11 @@ import { ReadyPlugin } from './plugins/ready'
 import { WatchDepsPlugin } from './plugins/watch-deps'
 import { createBoolToggle, createPlugins, isSupportsAbort } from './utils'
 
+export * from './plugins/cancel-if-dup'
+export * from './plugins/immediate'
+export * from './plugins/ready'
+export * from './plugins/watch-deps'
+
 // #region 默认配置项
 const DEFAULTS_OPTIONS = {
   skipHooksOnCancel: true,
