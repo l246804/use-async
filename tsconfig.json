@@ -11,7 +11,6 @@
       "@magic-js/use-async": ["./src/index.ts"]
     },
     "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
