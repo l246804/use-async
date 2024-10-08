@@ -37,7 +37,7 @@ export interface CreateAsyncOptions {
   /**
    * 任务执行事件配置，优先于每次调用时的 `UseAsyncOptions.hooks`
    */
-  hooks?: UseAsyncHooks<any>
+  hooks?: Partial<UseAsyncHooks<any>>
   /**
    * 插件列表，插件返回的 `hooks` 优先于 `CreateAsyncOptions.hooks`
    */
