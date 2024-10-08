@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.3](https://github.com/l246804/use-async/compare/v0.2.2...v0.2.3) (2024-10-08)
+
+
+### Bug Fixes
+
+* 🐛 re-export plugins ([9c57023](https://github.com/l246804/use-async/commit/9c570230d03d50a220a80f1bbee3a8792809a835))
+
+
+### Chores
+
+* 🤖 补充 README.md ([f21ee89](https://github.com/l246804/use-async/commit/f21ee8984e2c7582c5984c25ba6f30ab5ab1dc20))
+* 🤖 update deps ([241b32c](https://github.com/l246804/use-async/commit/241b32c828e07b4c7994c7674cd94e4a9db30784))
+* 🤖 update settings.json ([a842269](https://github.com/l246804/use-async/commit/a842269fbf0eb6ab4b77fa80476f7ad1468e8dac))
+* 🤖 update tsconfig.json ([c2a039e](https://github.com/l246804/use-async/commit/c2a039e0ab27dfa9e239f507db8922541061e677))
+
 ## [0.2.2](https://github.com/l246804/use-async/compare/v0.2.1...v0.2.2) (2024-09-26)
 
 
