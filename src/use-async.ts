@@ -5,7 +5,7 @@ import { createAsync } from './create-async'
 
 export type UseAsync = <T extends Task = Task>(
   task: T,
-  options: UseAsyncOptions<T>,
+  options?: UseAsyncOptions<T>,
 ) => UseAsyncReturn<T> & PromiseLike<UseAsyncReturn<T>>
 
 export const useAsync = createAsync()
