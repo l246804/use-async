@@ -309,7 +309,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
           })
 
         // 执行插件处理后的任务并设置为原始数据
-        state.rawData = rawData.value = await pluginCtx.task()
+        state.rawData = rawData.value = await pluginCtx.task(beforeCtx)
 
         // 从未完成的 AbortController 列表中删除
         deleteController()

@@ -1,3 +1,4 @@
+import type { ExecuteContext } from './context'
 import type { UseAsyncHookable } from './hooks'
 import type { CreateAsyncOptions, UseAsyncOptions } from './options'
 import type { UseAsyncReturn } from './return'
@@ -29,7 +30,7 @@ export interface UseAsyncPluginContext<T extends Task = Task> {
   /**
    * 本次执行的任务，可以通过插件进行替换，但需返回一个 `Promise`，出错时抛出异常将被捕获并进入 `error` 阶段
    */
-  task: () => Promise<any>
+  task: (ctx: ExecuteContext.Before) => Promise<any>
   /**
    * 设置插件 api，方便与其他插件进行通信
    * @param key 注册键，需保证唯一
