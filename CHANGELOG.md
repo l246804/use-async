@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/l246804/use-async/compare/v0.2.4...v0.2.5) (2024-10-10)
+
+
+### Chores
+
+* 🤖 PluginContext.task 支持获取 beforeContext ([c24764d](https://github.com/l246804/use-async/commit/c24764df3e4ed3f616b571be2f4a630e6e9adfb2))
+
 ## [0.2.4](https://github.com/l246804/use-async/compare/v0.2.3...v0.2.4) (2024-10-08)
 
 
