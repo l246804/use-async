@@ -26,7 +26,7 @@ export interface CreateAsyncOptions {
   updateErrorOnSuccess?: boolean
   /**
    * 本次执行前是否终止上次未完成的任务执行
-   * @default true
+   * @default false
    */
   abortPrevious?: boolean
   /**
