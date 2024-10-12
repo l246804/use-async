@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/l246804/use-async/compare/v0.2.5...v0.2.6) (2024-10-12)
+
+
+### Bug Fixes
+
+* 🐛 修改配置项注释里默认值错误 ([717ccfc](https://github.com/l246804/use-async/commit/717ccfcb6f908bec2d605f0ddb6dcfdc16d22fe6))
+
 ## [0.2.5](https://github.com/l246804/use-async/compare/v0.2.4...v0.2.5) (2024-10-10)
 
 
