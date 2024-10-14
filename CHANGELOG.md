@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.7](https://github.com/l246804/use-async/compare/v0.2.6...v0.2.7) (2024-10-14)
+
+
+### Bug Fixes
+
+* 🐛 修复 unsafeExecute 未正确执行 doExecute ([96b8099](https://github.com/l246804/use-async/commit/96b80992b7374f368229dd1ea31542de12a71c4b))
+
 ## [0.2.6](https://github.com/l246804/use-async/compare/v0.2.5...v0.2.6) (2024-10-12)
 
 
