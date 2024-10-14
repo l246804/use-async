@@ -105,7 +105,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
       doExecute,
 
       execute: (...args) => shell.doExecute(args),
-      unsafeExecute: (...args) => shell.execute(args, true),
+      unsafeExecute: (...args) => shell.doExecute(args, true),
 
       reExecute: () => shell.execute(...payload.value),
       unsafeReExecute: () => shell.unsafeExecute(...payload.value),
