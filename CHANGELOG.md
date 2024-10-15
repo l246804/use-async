@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.8](https://github.com/l246804/use-async/compare/v0.2.7...v0.2.8) (2024-10-15)
+
+
+### Chores
+
+* 🤖 优化 InferTaskPayload 类型定义 ([c214451](https://github.com/l246804/use-async/commit/c214451565183d584b0e3d745a87f03199478f74))
+* 🤖 优化 InferTaskReturn 类型定义 ([3ecaf0c](https://github.com/l246804/use-async/commit/3ecaf0c0c62e6757054e2b786ef6a6a445de1f06))
+
 ## [0.2.7](https://github.com/l246804/use-async/compare/v0.2.6...v0.2.7) (2024-10-14)
 
 
