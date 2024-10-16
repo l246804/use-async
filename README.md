@@ -166,19 +166,19 @@ export function createRefreshTokenPlugin(pluginOptions) {
       }
 
       // 包装原始任务
-      pluginCtx.task = async () => {
+      pluginCtx.task = async (ctx) => {
         // 没有启用时直接返回原始任务的执行
         if (!enabled)
-          return rawTask()
+          return rawTask(ctx)
 
         // 存在刷新操作时等待完成后再执行原始任务
         if (refreshPromise) {
-          return refreshPromise.then(rawTask)
+          return refreshPromise.then(() => rawTask(ctx))
         }
 
         try {
           // 正常执行原始任务
-          return rawTask()
+          return await rawTask(ctx)
         }
         catch (e) {
           const error = createError(e)
@@ -187,14 +187,14 @@ export function createRefreshTokenPlugin(pluginOptions) {
           if (await assertExpired(error)) {
             // 设置刷新操作
             if (!refreshPromise) {
-              refreshPromise = Promise.resolve(
-                handler({ ...refreshTokenCtx, abort: () => ctx.abort(error) })
-              )
+              refreshPromise = new Promise((resolve) => {
+                resolve(handler({ ...refreshTokenCtx, abort: () => ctx.abort(error) }))
+              })
             }
 
             // 等待刷新成功后再次执行原始任务
             return refreshPromise
-              .then(() => !refreshTokenCtx.isAborted() && rawTask())
+              .then(() => !refreshTokenCtx.isAborted() && rawTask(ctx))
               // 刷新失败后抛出原始错误信息
               .catch(() => Promise.reject(error))
               .finally(() => {

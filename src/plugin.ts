@@ -88,7 +88,7 @@ export interface UseAsyncPluginContext<T extends Task = Task> {
  *   if (!refreshPromise) return
  *
  *   const rawTask = ctx.task
- *   ctx.task = () => refreshPromise.then(() => rawTask())
+ *   ctx.task = (ctx) => refreshPromise.then(() => rawTask(ctx))
  * }
  * ```
  */
