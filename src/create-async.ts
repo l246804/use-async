@@ -6,7 +6,7 @@ import type { UseAsyncPluginContext } from './plugin'
 import type { UseAsyncReturn } from './return'
 import type { Task } from './task'
 import type { UseAsync } from './use-async'
-import { computed, readonly, ref, shallowRef } from '@vue/reactivity'
+import { computed, onScopeDispose, readonly, ref, shallowRef } from '@vue/reactivity'
 import { until } from '@vueuse/core'
 import { createHooks, serialTaskCaller } from 'easy-hookable'
 import { callWithSignal, promiseWithControl, toValue } from 'nice-fns'
@@ -407,6 +407,13 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
         )
       return promise
     }
+    // #endregion
+
+    // #region 缓存清理
+    onScopeDispose(() => {
+      // 移除全部事件监听
+      hooks.removeAllHooks()
+    })
     // #endregion
 
     return {

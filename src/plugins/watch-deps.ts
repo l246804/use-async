@@ -1,6 +1,6 @@
 import type { UseAsyncPlugin } from '@magic-js/use-async'
 import type { WatchOptions, WatchSource } from '@vue/reactivity'
-import { watch } from '@vue/reactivity'
+import { onScopeDispose, watch } from '@vue/reactivity'
 
 /**
  * WatchDepsPlugin
@@ -15,7 +15,8 @@ export const WatchDepsPlugin: UseAsyncPlugin = ({ options, shell }) => {
       ...watchOptions
     } = Array.isArray(watchDeps) ? { source: watchDeps } : watchDeps
 
-    watch(source, callback, { deep: true, ...watchOptions, immediate: false })
+    const unwatch = watch(source, callback, { deep: true, ...watchOptions, immediate: false })
+    onScopeDispose(unwatch)
   }
 }
 
