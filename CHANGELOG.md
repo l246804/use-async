@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.9](https://github.com/l246804/use-async/compare/v0.2.8...v0.2.9) (2024-10-24)
+
+
+### Chores
+
+* 🤖 优化注释和 README.md 内容 ([cace185](https://github.com/l246804/use-async/commit/cace1855b01b3daa06706655bb95c75ec0fa3ef2))
+* 🤖 useAsync 在 onScopeDispose 时清理缓存 ([7cef2ce](https://github.com/l246804/use-async/commit/7cef2ce54dbdbc5177e160ff9e1a098324121a59))
+
 ## [0.2.8](https://github.com/l246804/use-async/compare/v0.2.7...v0.2.8) (2024-10-15)
 
 
