@@ -6,10 +6,10 @@ import type { UseAsyncPluginContext } from './plugin'
 import type { UseAsyncReturn } from './return'
 import type { Task } from './task'
 import type { UseAsync } from './use-async'
-import { computed, onScopeDispose, readonly, ref, shallowRef } from 'vue'
-import { until } from '@vueuse/core'
+import { tryOnScopeDispose, until } from '@vueuse/core'
 import { createHooks, serialTaskCaller } from 'easy-hookable'
 import { callWithSignal, promiseWithControl, toValue } from 'nice-fns'
+import { computed, readonly, ref, shallowRef } from 'vue'
 import { createError, type UseAsyncError } from './error'
 import { CancelIfDupPlugin } from './plugins/cancel-if-dup'
 import { ImmediatePlugin } from './plugins/immediate'
@@ -410,7 +410,7 @@ export function createAsync(baseOptions: CreateAsyncOptions = {}) {
     // #endregion
 
     // #region 缓存清理
-    onScopeDispose(() => {
+    tryOnScopeDispose(() => {
       // 移除全部事件监听
       hooks.removeAllHooks()
     })
