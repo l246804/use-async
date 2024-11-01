@@ -1,6 +1,6 @@
 import type { UseAsyncPlugin } from '@magic-js/use-async'
-import type { WatchOptions, WatchSource } from '@vue/reactivity'
-import { onScopeDispose, watch } from '@vue/reactivity'
+import type { WatchOptions, WatchSource } from 'vue'
+import { onScopeDispose, watch } from 'vue'
 
 /**
  * WatchDepsPlugin

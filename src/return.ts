@@ -1,4 +1,4 @@
-import type { ComputedRef, Ref, ShallowRef } from '@vue/reactivity'
+import type { ComputedRef, Ref, ShallowRef } from 'vue'
 import type { UseAsyncError } from './error'
 import type { UseAsyncHookable } from './hooks'
 import type { InferTaskPayload, InferTaskReturn, Task } from './task'
