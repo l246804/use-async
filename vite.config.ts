@@ -54,7 +54,6 @@ export default defineConfig(() => {
     build: {
       outDir,
       minify,
-      sourcemap: true,
       lib: {
         entry: entryFile,
       },

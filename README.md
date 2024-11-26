@@ -232,3 +232,27 @@ interface UseAsyncHooks<T> {
   // 扩展自定义事件钩子
 }
 ```
+
+## Polyfill
+
+> 在不支持现代 [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) 的环境下可以通过 [modern-abortcontroller-polyfill](https://www.npmjs.com/package/modern-abortcontroller-polyfill) 进行填充。
+
+### 安装
+
+```sh
+# npm
+npm i modern-abortcontroller-polyfill
+
+# yarn
+yarn add modern-abortcontroller-polyfill
+
+# pnpm
+pnpm add modern-abortcontroller-polyfill
+```
+
+### 使用方式
+
+```ts
+// main.ts
+import 'modern-abortcontroller-polyfill'
+```
