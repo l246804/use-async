@@ -1,7 +1,7 @@
 import type { UseAsyncPlugin, UseAsyncPluginContext } from './plugin'
 import { isFunction } from 'nice-fns'
 
-// #region 插件辅助工序
+// #region 插件辅助工具
 export function createPlugins() {
   let plugins: UseAsyncPlugin<any>[] = []
   let pluginApis: Record<PropertyKey, any> = {}
