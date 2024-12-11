@@ -235,24 +235,30 @@ interface UseAsyncHooks<T> {
 
 ## Polyfill
 
-> 在不支持现代 [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) 的环境下可以通过 [modern-abortcontroller-polyfill](https://www.npmjs.com/package/modern-abortcontroller-polyfill) 进行填充。
+> 在不支持现代 [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) 的环境下可以通过 [abortcontroller-polyfill](https://www.npmjs.com/package/abortcontroller-polyfill) 进行填充。
 
 ### 安装
 
 ```sh
 # npm
-npm i modern-abortcontroller-polyfill
+npm i abortcontroller-polyfill
 
 # yarn
-yarn add modern-abortcontroller-polyfill
+yarn add abortcontroller-polyfill
 
 # pnpm
-pnpm add modern-abortcontroller-polyfill
+pnpm add abortcontroller-polyfill
 ```
 
 ### 使用方式
 
+> 更多使用方式推荐查阅[官方说明](https://www.npmjs.com/package/abortcontroller-polyfill?activeTab=readme)！
+
 ```ts
 // main.ts
-import 'modern-abortcontroller-polyfill'
+// 仅对运行环境原生的 AbortController 和 AbortSignal 支持不完善时推荐使用该方式
+import 'abortcontroller-polyfill/dist/abortsignal-polyfill-only'
+
+// 对运行环境填充自定义 AbortController 和 AbortSignal
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 ```
